@@ -52,7 +52,7 @@ function readFeeds() {
     $right.html('');
 
     FB.api(
-        '/' + fansId + '/feed?limit=' + limit + '&offset=' + offset,
+        '/' + fansId + '/feed?fields=attachments&limit=' + limit + '&offset=' + offset,
         'GET', {
             access_token: pageAccessToken
         },
@@ -69,7 +69,10 @@ function parseFeed(feeds) {
     var output = '';
 
     for (var i in data) {
-        output += '<li><a href="#" data-id="' + data[i].id + '">' + data[i].message + '</a></li>';
+        output += '<li>';
+        output += '<img src="'+data[i].attachments.data[0].media.image.src+'" />';
+        output += '<a href="#" data-id="' + data[i].id + '">' + data[i].attachments.data[0].description + '</a>';
+        output += '</li>';
     }
 
     $feeds.html(output);
