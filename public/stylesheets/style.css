@@ -1,8 +1,1 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
+body{margin:0 auto;font-size:13px;color:black;font-family:Tahoma,Verdana,Arial,sans-serif}ul,li{padding:0;margin:0}li{padding:5px 10px;border-bottom:1px solid #ccc}a{color:black;text-decoration:none}.in{color:blue}.left{width:40%;float:left}.mid{width:30%;font-size:64px;display:inline-block}.right{width:30%;font-size:24px;display:inline-block;position:absolute}.nav{margin:20px 0;width:100%;text-align:center}.nav button{cursor:pointer}#detail li{list-style:none;padding:3px 0}

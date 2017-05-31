@@ -1,5 +1,19 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div
+    .left
+      .nav
+        button(class="prev")上一頁
+        button(class="next")下一頁
+        input(type="checkbox", id="filter", checked=true, value="1")
+        使用過濾
+      ul#feeds
+        li(style="text-align:center")
+          img(src="bx_loader.gif")
+      .nav
+        button(class="prev")上一頁
+        button(class="next")下一頁
+    .mid
+    .right
+      ul#detail
