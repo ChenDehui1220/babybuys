@@ -31,7 +31,7 @@ a {
 }
 
 .left li {
-    display: flow-root;
+    display: inline-block;
 }
 
 .left li img {
