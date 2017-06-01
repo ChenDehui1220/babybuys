@@ -13,7 +13,7 @@ $(document).ready(function() {
     $right = $('.right');
     $feeds = $('#feeds');
 
-    $feeds.on('click', 'a', function(e) {
+    $feeds.on('click', 'a.ctl', function(e) {
         e.preventDefault();
 
         $('#feeds').find('a').removeClass('in');
@@ -73,7 +73,7 @@ function parseFeed(feeds) {
         output += '<a href=" ' + data[i].attachments.data[0].target.url + '" target="_blank">';
         output += '<img src="'+data[i].attachments.data[0].media.image.src+'" />';
         output += '</a>';
-        output += '<a href="#" data-id="' + data[i].id + '">' + data[i].attachments.data[0].description + '</a>';
+        output += '<a class="ctl" href="#" data-id="' + data[i].id + '">' + data[i].attachments.data[0].description + '</a>';
         output += '</li>';
     }
 
