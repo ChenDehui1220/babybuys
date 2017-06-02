@@ -116,7 +116,7 @@ function findComment() {
     };
 
     FB.api(
-        '/' + commentsId + '/comments',
+        '/' + commentsId + '/comments?fields=attachment,from,message',
         'GET', {
             access_token: pageAccessToken,
             limit: 50
