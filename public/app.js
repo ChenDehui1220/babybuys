@@ -70,9 +70,11 @@ function parseFeed(feeds) {
 
     for (var i in data) {
         output += '<li>';
-        output += '<a href=" ' + data[i].attachments.data[0].target.url + '" target="_blank">';
-        output += '<img src="'+data[i].attachments.data[0].media.image.src+'" />';
-        output += '</a>';
+        if (data[i].attachments.data[0].media.image !== undefined) {
+            output += '<a href=" ' + data[i].attachments.data[0].target.url + '" target="_blank">';
+            output += '<img src="'+data[i].attachments.data[0].media.image.src+'" />';
+            output += '</a>';
+        }
         output += '<a class="ctl" href="#" data-id="' + data[i].id + '">' + data[i].attachments.data[0].description + '</a>';
         output += '</li>';
     }
