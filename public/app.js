@@ -8,12 +8,12 @@ var commentsId = null;
 var limit = 15
 var offset = 0;
 
-$(document).ready(function() {
+$(document).ready(function () {
     $mid = $('.mid');
     $right = $('.right');
     $feeds = $('#feeds');
 
-    $feeds.on('click', 'a.ctl', function(e) {
+    $feeds.on('click', 'a.ctl', function (e) {
         e.preventDefault();
 
         $('#feeds').find('a').removeClass('in');
@@ -22,7 +22,7 @@ $(document).ready(function() {
         findComment();
     });
 
-    $('.prev').on('click', function(e) {
+    $('.prev').on('click', function (e) {
         e.preventDefault();
         if (offset > 0) {
             offset -= limit;
@@ -31,13 +31,13 @@ $(document).ready(function() {
             alert('已經是第一頁')
         }
     });
-    $('.next').on('click', function(e) {
+    $('.next').on('click', function (e) {
         e.preventDefault();
         offset += limit;
         console.log('now offset is ' + offset);
         readFeeds();
     });
-    $('#filter').on('click', function() {
+    $('#filter').on('click', function () {
         if ($(this).is(':checked')) {
             useFilter = true;
         } else {
@@ -56,7 +56,7 @@ function readFeeds() {
         'GET', {
             access_token: pageAccessToken
         },
-        function(response) {
+        function (response) {
             if (response.data && Object.keys(response).length > 0) {
                 parseFeed(response);
             }
@@ -70,9 +70,9 @@ function parseFeed(feeds) {
 
     for (var i in data) {
         output += '<li>';
-        if (data[i].attachments.data[0].media.image !== undefined) {
+        if (data[i].attachments.data[0].media !== undefined) {
             output += '<a href=" ' + data[i].attachments.data[0].target.url + '" target="_blank">';
-            output += '<img src="'+data[i].attachments.data[0].media.image.src+'" />';
+            output += '<img src="' + data[i].attachments.data[0].media.image.src + '" />';
             output += '</a>';
         }
         output += '<a class="ctl" href="#" data-id="' + data[i].id + '">' + data[i].attachments.data[0].description + '</a>';
@@ -83,7 +83,7 @@ function parseFeed(feeds) {
 }
 
 function findComment() {
-    var parse = function(data) {
+    var parse = function (data) {
         var output = '';
         var detail = '';
         var pool = [];
@@ -98,7 +98,14 @@ function findComment() {
                 }
             } else {
                 output += data[i].from.name + '<br>';
-                detail += '<li>' + data[i].from.name + ' : ' + data[i].message + '</li>';
+                detail += '<li>';
+                detail += data[i].from.name + ' : ' + data[i].message;
+
+                if (data[i].attachment !== undefined && data[i].attachment.media !== undefined) {
+                    detail += '<img src="' + data[i].attachment.media.image.src + '" width="120px" />';
+                }
+
+                detail += '</li>';
             }
         }
         if (output === '') {
@@ -114,7 +121,7 @@ function findComment() {
             access_token: pageAccessToken,
             limit: 50
         },
-        function(response) {
+        function (response) {
             // Insert your code here
             if (response.data && Object.keys(response).length > 0) {
                 console.log(response);
@@ -124,7 +131,7 @@ function findComment() {
     );
 }
 
-(function() {
+(function () {
     FB.init({
         appId: '924584807668532',
         cookie: true,
@@ -132,7 +139,7 @@ function findComment() {
         version: 'v2.8'
     });
 
-    FB.getLoginStatus(function(response) {
+    FB.getLoginStatus(function (response) {
 
         if (response.status === 'connected') {
 
@@ -141,7 +148,7 @@ function findComment() {
 
         } else if (response.status === 'not_authorized') {
             //尚未通過第一階段授權
-            FB.login(function(response) {
+            FB.login(function (response) {
 
                 pageAccessToken = response.authResponse.accessToken
                 readFeeds();
