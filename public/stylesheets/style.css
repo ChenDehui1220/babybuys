@@ -2,32 +2,33 @@ body {
     margin: 0 auto;
     font-size: 13px;
     color: black;
-    font-family: Tahoma, Verdana, Arial, sans-serif
+    font-family: Tahoma, Verdana, Arial, sans-serif;
 }
 
 ul,
 li {
     padding: 0;
-    margin: 0
+    margin: 0;
 }
 
 li {
     padding: 5px 10px;
-    border-bottom: 1px solid #ccc
+    border-bottom: 1px solid #ccc;
+    list-style-type: none;
 }
 
 a {
     color: black;
-    text-decoration: none
+    text-decoration: none;
 }
 
 .in {
-    color: blue
+    color: blue;
 }
 
 .left {
     width: 40%;
-    float: left
+    float: left;
 }
 
 .left li {
@@ -38,6 +39,12 @@ a {
     width: 125px;
     padding: 0 5px 0 0;
     float: left;
+}
+
+.left li span {
+    display: block;
+    text-align: right;
+    padding-top: 5px;
 }
 
 .mid {
@@ -51,6 +58,13 @@ a {
     font-size: 24px;
     display: inline-block;
     position: absolute
+}
+
+.right li span {
+    display: block;
+    text-align: right;
+    padding-top: 5px;
+    font-size: 12px;
 }
 
 .nav {

@@ -52,12 +52,13 @@ function readFeeds() {
     $right.html('');
 
     FB.api(
-        '/' + fansId + '/feed?fields=attachments&limit=' + limit + '&offset=' + offset,
+        '/' + fansId + '/feed?fields=attachments,created_time&limit=' + limit + '&offset=' + offset,
         'GET', {
             access_token: pageAccessToken
         },
         function (response) {
             if (response.data && Object.keys(response).length > 0) {
+                console.log(response)
                 parseFeed(response);
             }
         }
@@ -69,14 +70,18 @@ function parseFeed(feeds) {
     var output = '';
 
     for (var i in data) {
-        output += '<li>';
-        if (data[i].attachments.data[0].media !== undefined) {
-            output += '<a href=" ' + data[i].attachments.data[0].target.url + '" target="_blank">';
-            output += '<img src="' + data[i].attachments.data[0].media.image.src + '" />';
-            output += '</a>';
+        if (data[i].attachments !== undefined) {
+            output += '<li>';
+
+            if (data[i].attachments.data[0].media !== undefined) {
+                output += '<a href=" ' + data[i].attachments.data[0].target.url + '" target="_blank">';
+                output += '<img src="' + data[i].attachments.data[0].media.image.src + '" />';
+                output += '</a>';
+            }
+            output += '<a class="ctl" href="#" data-id="' + data[i].id + '">' + data[i].attachments.data[0].description + '</a>';
+            output += '<span>' + new Date(data[i].created_time).toLocaleString() + '</span>';
+            output += '</li>';
         }
-        output += '<a class="ctl" href="#" data-id="' + data[i].id + '">' + data[i].attachments.data[0].description + '</a>';
-        output += '</li>';
     }
 
     $feeds.html(output);
@@ -92,7 +97,9 @@ function findComment() {
                 if (pool.indexOf(data[i].from.name) == '-1') {
                     if (data[i].from.name !== '陳薇旭') {
                         output += data[i].from.name + '<br>';
-                        detail += '<li>' + data[i].from.name + ' : ' + data[i].message + '</li>';
+                        detail += '<li>' + data[i].from.name + ' : ' + data[i].message;
+                        detail += '<span>' + new Date(data[i].created_time).toLocaleString() + '</span>';
+                        detail += '</li>';
                         pool.push(data[i].from.name);
                     }
                 }
@@ -105,6 +112,7 @@ function findComment() {
                     detail += '<img src="' + data[i].attachment.media.image.src + '" width="120px" />';
                 }
 
+                detail += '<span>' + new Date(data[i].created_time).toLocaleString() + '</span>';
                 detail += '</li>';
             }
         }
@@ -116,7 +124,7 @@ function findComment() {
     };
 
     FB.api(
-        '/' + commentsId + '/comments?fields=attachment,from,message',
+        '/' + commentsId + '/comments?fields=attachment,from,message,created_time',
         'GET', {
             access_token: pageAccessToken,
             limit: 50
@@ -132,8 +140,10 @@ function findComment() {
 }
 
 (function () {
+    var APPID = (/localhost/i.test(window.location.href)) ? '688594924675068' : '924584807668532';
+
     FB.init({
-        appId: '924584807668532',
+        appId: APPID,
         cookie: true,
         xfbml: true,
         version: 'v2.8'
@@ -156,6 +166,8 @@ function findComment() {
             }, {
                 scope: 'user_managed_groups'
             });
+
+            $('.mid').html('無法連結Facebook');
         } else {
             //沒登入FB使用者
             alert("請先登入Facebook網站");
